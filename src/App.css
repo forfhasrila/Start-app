@@ -1,0 +1,591 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans Thai", Arial, sans-serif;
+  background: #06271d;
+  color: #f5f1df;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* กล่องหลักของระบบ */
+.app-container {
+  min-height: 100vh;
+  padding: 35px 20px;
+  background:
+    linear-gradient(
+      rgba(3, 25, 18, 0.72),
+      rgba(3, 25, 18, 0.72)
+    ),
+    url("/startbar-bg.png") center / cover fixed;
+
+  border: 3px solid #d8ad2b;
+  box-shadow:
+    inset 0 0 0 4px rgba(216, 173, 43, 0.25),
+    inset 0 0 35px rgba(0, 0, 0, 0.45);
+}
+
+/* เนื้อหาตรงกลาง */
+.app-content {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 30px;
+  background: rgba(3, 25, 18, 0.78);
+  border: 1px solid rgba(216, 173, 43, 0.45);
+  border-radius: 24px;
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.35),
+    inset 0 0 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+}
+
+/* โลโก้ */
+.app-logo {
+  display: block;
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  margin: 0 auto 15px;
+}
+
+/* หัวข้อ */
+h1 {
+  text-align: center;
+  margin: 0 0 25px;
+  color: #f4c928;
+  font-size: 42px;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+h2 {
+  color: #f4c928;
+}
+
+/* ปุ่มเพิ่มรายการ */
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 11px 18px;
+  margin-right: 10px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* ปุ่มหลัก */
+.btn-primary {
+  background: #f4c928;
+  color: #10251d;
+  font-weight: 700;
+}
+
+/* การ์ดฟอร์ม */
+.form-card {
+  max-width: 620px;
+margin: 20px auto;
+  padding: 25px;
+  background: rgba(5, 32, 24, 0.94);
+  border: 1px solid rgba(244, 201, 40, 0.7);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* ช่องกรอกข้อมูล */
+label {
+  display: block;
+  margin: 10px 0 6px;
+  color: #f4c928;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1px solid #557267;
+  border-radius: 10px;
+  background: #f8f7ef;
+  color: #17251f;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+/* ยอดซื้อ */
+.purchase-total {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 10px;
+  background: rgba(244, 201, 40, 0.12);
+  color: #f4c928;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* การ์ดรายการซื้อ */
+.purchase-card {
+  margin-top: 15px;
+  padding: 18px;
+  background: rgba(5, 32, 24, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+}
+
+/* ปุ่มแก้ไข */
+.btn-edit {
+  background: #e8c13a;
+  color: #17251f;
+  margin-right: 8px;
+}
+
+/* ปุ่มลบ */
+.btn-delete {
+  background: #8d3f3f;
+  color: white;
+}
+
+/* ยอดรวม */
+.total-card {
+  margin-top: 25px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(244, 201, 40, 0.14);
+  border: 1px solid rgba(244, 201, 40, 0.55);
+  border-radius: 16px;
+  color: #f4c928;
+}
+
+/* มือถือ */
+@media (max-width: 600px) {
+  .app-container {
+    padding: 25px 12px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .app-logo {
+    width: 105px;
+    height: 105px;
+  }
+
+  .form-card {
+    padding: 18px;
+  }
+}
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 15px 0 25px;
+}
+
+.category-card {
+  min-height: 120px;
+  border: 2px solid transparent;
+  border-radius: 18px;
+  background: #f4f4ed;
+  color: #123c2b;
+  cursor: pointer;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+}
+
+.category-card.selected {
+  background: #063b29;
+  border-color: #f4c95d;
+  color: #f4c95d;
+  box-shadow:
+    0 0 0 2px rgba(244, 201, 93, 0.25),
+    0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.category-icon {
+  font-size: 42px;
+  line-height: 1;
+}
+
+.category-name {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .category-card {
+    min-height: 105px;
+  }
+
+  .category-icon {
+    font-size: 34px;
+  }
+
+  .category-name {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 450px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.app-content > button {
+  margin-bottom: 12px;
+}
+
+.app-content > button + button {
+  margin-top: 8px;
+}
+/* ================================
+   ประวัติการซื้อ
+================================ */
+
+.history-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 25px auto;
+  padding: 25px 18px 30px;
+  box-sizing: border-box;
+
+  background: #00281f;
+  border: 1px solid #d4af37;
+  border-radius: 24px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.history-title {
+  margin: 0 0 22px;
+  text-align: center;
+
+  color: #ffd43b;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.history-date-label {
+  display: block;
+  margin-bottom: 8px;
+
+  color: #ffd43b;
+  font-weight: 700;
+  text-align: center;
+}
+
+.history-date-input {
+  display: block;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto 22px;
+
+  padding: 14px 18px;
+  box-sizing: border-box;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #f8f7ef;
+  color: #173c32;
+
+  font-size: 18px;
+  font-family: inherit;
+}
+
+.history-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-bottom: 12px;
+  padding: 16px 18px;
+
+  border: 1px solid #4d8b6d;
+  border-radius: 18px;
+
+  color: white;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.history-day-header span {
+  padding: 8px 14px;
+
+  background: #153f35;
+  border-radius: 20px;
+
+  color: #f5f5f5;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-item {
+  display: grid;
+
+  grid-template-columns: 42px minmax(120px, 1fr) auto auto;
+
+  align-items: center;
+  gap: 12px;
+
+  min-height: 68px;
+  padding: 10px 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #43805f;
+  border-radius: 18px;
+
+  background: #003025;
+
+  transition: 0.2s ease;
+}
+
+.history-item:hover {
+  border-color: #d4af37;
+  transform: translateY(-1px);
+}
+
+.history-number {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #b8941f;
+  border-radius: 50%;
+
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.history-category {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.history-price {
+  color: #ffd43b;
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.history-payment {
+  min-width: 90px;
+  padding: 8px 12px;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.history-payment.cash {
+  background: #075d38;
+  border: 1px solid #25865d;
+  color: #ffffff;
+}
+
+.history-payment.transfer {
+  background: #173b43;
+  border: 1px solid #47717a;
+  color: #ffffff;
+}
+
+.history-empty {
+  padding: 35px 20px;
+
+  text-align: center;
+
+  border: 1px dashed #4d8b6d;
+  border-radius: 18px;
+
+  color: #d8ddd9;
+}
+
+.history-empty div {
+  font-size: 38px;
+}
+
+.history-empty p {
+  margin-bottom: 0;
+}
+
+.history-summary {
+  margin-top: 24px;
+  padding-top: 22px;
+
+  border-top: 2px solid #d4d4c4;
+}
+
+.summary-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding: 20px;
+
+  border: 1px solid #d4af37;
+  border-radius: 18px;
+
+  background: #06382b;
+}
+
+.summary-total span {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.summary-total strong {
+  color: #ffd43b;
+  font-size: 27px;
+  white-space: nowrap;
+}
+
+.summary-payment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  margin-top: 12px;
+}
+
+.summary-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 16px;
+
+  border-radius: 18px;
+
+  text-align: center;
+}
+
+.summary-box span {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.summary-box strong {
+  color: #ffffff;
+  font-size: 19px;
+}
+
+.cash-box {
+  background: #063b2c;
+  border: 1px solid #39845e;
+}
+
+.transfer-box {
+  background: #12343b;
+  border: 1px solid #507681;
+}
+
+/* มือถือ */
+
+@media (max-width: 600px) {
+
+  .history-card {
+    padding: 20px 10px 25px;
+    border-radius: 20px;
+  }
+
+  .history-title {
+    font-size: 25px;
+  }
+
+  .history-day-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .history-day-header span {
+    text-align: center;
+  }
+
+  .history-item {
+    grid-template-columns: 34px 1fr auto;
+
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .history-number {
+    width: 32px;
+    height: 32px;
+  }
+
+  .history-category {
+    font-size: 15px;
+  }
+
+  .history-price {
+    font-size: 16px;
+  }
+
+  .history-payment {
+    grid-column: 2 / 4;
+    justify-self: start;
+
+    min-width: auto;
+    padding: 6px 12px;
+  }
+
+  .summary-total {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .summary-total strong {
+    font-size: 25px;
+  }
+
+  .summary-payment {
+    grid-template-columns: 1fr;
+  }
+}
