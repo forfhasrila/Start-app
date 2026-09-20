@@ -103,14 +103,26 @@ function App() {
     setShowForm(false)
   }
 
+  // ปรับปรุงฟังก์ชันสำรองข้อมูลใหม่ ใช้ Blob ให้ดาวน์โหลดบนมือถือได้ชัวร์ 100%
   const exportData = () => {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(purchases))
-    const downloadAnchor = document.createElement('a')
-    downloadAnchor.setAttribute("href", dataStr)
-    downloadAnchor.setAttribute("download", `start_bar_backup_${getToday()}.json`)
-    document.body.appendChild(downloadAnchor)
-    downloadAnchor.click()
-    downloadAnchor.remove()
+    try {
+      const dataStr = JSON.stringify(purchases, null, 2)
+      const blob = new Blob([dataStr], { type: "application/json" })
+      const url = URL.createObjectURL(blob)
+      
+      const downloadAnchor = document.createElement('a')
+      downloadAnchor.href = url
+      downloadAnchor.download = `start_bar_backup_${getToday()}.json`
+      document.body.appendChild(downloadAnchor)
+      downloadAnchor.click()
+      
+      setTimeout(() => {
+        document.body.removeChild(downloadAnchor)
+        URL.revokeObjectURL(url)
+      }, 100)
+    } catch (error) {
+      alert("ไม่สามารถสำรองข้อมูลได้ กรุณาลองใหม่อีกครั้ง")
+    }
   }
 
   const importData = (e) => {
