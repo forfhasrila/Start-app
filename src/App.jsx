@@ -25,6 +25,7 @@ function App() {
   const [historyDate, setHistoryDate] = useState(getToday())
   const [category, setCategory] = useState("")
   const [price, setPrice] = useState("")
+  const [note, setNote] = useState("")
   const [purchases, setPurchases] = useState(() => {
     const saved = localStorage.getItem("startBarPurchases")
     return saved ? JSON.parse(saved) : []
@@ -71,7 +72,8 @@ function App() {
       category,
       price: total,
       date: purchaseDate,
-      paymentMethod
+      paymentMethod,
+      note: note.trim()
     }
 
     if (editingIndex !== null) {
@@ -84,6 +86,7 @@ function App() {
 
     setCategory("")
     setPrice("")
+    setNote("")
     setPurchaseDate(getToday())
     setPaymentMethod("")
     setEditingIndex(null)
@@ -204,6 +207,18 @@ function App() {
 
             <br /><br />
 
+            <label>หมายเหตุ (ถ้ามี)</label>
+            <br />
+            <input
+              type="text"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="เช่น ซื้อเพิ่มที่แม็คโคร"
+              style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #ccc", background: "#fff", color: "#333", boxSizing: "border-box" }}
+            />
+
+            <br /><br />
+
             <strong>💰 ยอดซื้อ: {total.toLocaleString()} บาท</strong>
             <br /><br />
             <label>วิธีชำระเงิน</label>
@@ -268,31 +283,46 @@ function App() {
               <div className="history-list">
 
                 {historyPurchases.map((purchase, index) => (
-                  <div className="history-item" key={index}>
-
-                    <div className="history-number">
-                      {index + 1}
+                  <div className="history-item" key={index} style={{ display: "flex", flexDirection: "column", gap: "8px", padding: "12px", width: "100%", boxSizing: "border-box" }}>
+                    
+                    {/* แถวที่ 1: ลำดับ และ ชื่อหมวดสินค้า (ให้ขยายเต็มที่ ไม่โดนบีบ) */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0, flex: 1 }}>
+                        <div className="history-number" style={{ flexShrink: 0 }}>
+                          {index + 1}
+                        </div>
+                        <div className="history-category" style={{ fontSize: "15px", fontWeight: "bold", wordBreak: "break-word" }}>
+                          {purchase.category}
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="history-category">
-                      {purchase.category}
+                    {/* แถวที่ 2: ราคา และ ปุ่มวิธีชำระเงิน */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", paddingLeft: "30px" }}>
+                      <div className="history-price" style={{ fontSize: "16px", fontWeight: "bold" }}>
+                        {Number(purchase.price).toLocaleString()} บาท
+                      </div>
+
+                      <div
+                        className={`history-payment ${
+                          purchase.paymentMethod === "เงินสด"
+                            ? "cash"
+                            : "transfer"
+                        }`}
+                        style={{ fontSize: "12px", padding: "4px 10px", flexShrink: 0 }}
+                      >
+                        {purchase.paymentMethod === "เงินสด"
+                          ? "💵 เงินสด"
+                          : "🏦 โอน"}
+                      </div>
                     </div>
 
-                    <div className="history-price">
-                      {Number(purchase.price).toLocaleString()} บาท
-                    </div>
-
-                    <div
-                      className={`history-payment ${
-                        purchase.paymentMethod === "เงินสด"
-                          ? "cash"
-                          : "transfer"
-                      }`}
-                    >
-                      {purchase.paymentMethod === "เงินสด"
-                        ? "💵 เงินสด"
-                        : "🏦 โอน"}
-                    </div>
+                    {/* แถวที่ 3: หมายเหตุ (ถ้ามี) */}
+                    {purchase.note && (
+                      <div style={{ fontSize: "13px", color: "#cbd5e1", background: "rgba(11, 60, 45, 0.6)", padding: "5px 10px", borderRadius: "6px", width: "100%", boxSizing: "border-box", marginLeft: "30px" }}>
+                        📝 หมายเหตุ: {purchase.note}
+                      </div>
+                    )}
 
                   </div>
                 ))}
@@ -331,7 +361,7 @@ function App() {
           </div>
         )}
 
-        {/* ย้ายปุ่มสำรองและกู้คืนข้อมูลมาไว้ล่างสุดตรงนี้ */}
+        {/* ปุ่มสำรองและกู้คืนข้อมูล */}
         <div style={{ margin: "30px 0 15px 0", display: "flex", gap: "10px", justifyContent: "center" }}>
           <button onClick={exportData} style={{ fontSize: "14px", padding: "8px 12px", background: "#4CAF50", color: "#fff", border: "none", borderRadius: "8px" }}>
             📥 สำรองข้อมูล
