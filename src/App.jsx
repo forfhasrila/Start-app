@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import "./App.css"
 
 const categories = [
-  "🥩 เนื้อสัตว์",
+  "🥩 อาหาร",
   "🧊 น้ำแข็ง",
   "🥬 ผัก",
   "🥤 เครื่องดื่ม",
