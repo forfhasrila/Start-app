@@ -192,6 +192,13 @@ function App() {
               type="date"
               value={purchaseDate}
               onChange={(e) => setPurchaseDate(e.target.value)}
+              style={{
+                width: "88%",
+                maxWidth: "520px",
+                boxSizing: "border-box",
+                display: "block",
+                margin: "0 auto"
+              }}
             />
 
             <br /><br />
