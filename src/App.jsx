@@ -64,6 +64,14 @@ function App() {
     0
   )
 
+  // รวมยอดของแต่ละหมวดสินค้าในช่วงที่กำลังดู
+  const historyCategoryTotals = categories.map((categoryName) => ({
+    category: categoryName,
+    total: historyPurchases
+      .filter((purchase) => purchase.category === categoryName)
+      .reduce((sum, purchase) => sum + Number(purchase.price || 0), 0)
+  }))
+
   const historyCash = historyPurchases
     .filter((purchase) => purchase.paymentMethod === "เงินสด")
     .reduce((sum, purchase) => sum + Number(purchase.price || 0), 0)
@@ -427,6 +435,21 @@ function App() {
 
             {historyPurchases.length > 0 && (
               <div className="history-summary">
+
+                {historyCategoryTotals
+                  .filter((item) => item.total > 0)
+                  .map((item) => (
+                    <div
+                      className="summary-box"
+                      key={item.category}
+                      style={{ border: "1px solid #22c55e" }}
+                    >
+                      <span>{item.category}</span>
+                      <strong>
+                        {item.total.toLocaleString()} บาท
+                      </strong>
+                    </div>
+                  ))}
 
                 <div className="summary-total">
                   <span>💰 ยอดรวมทั้งหมด</span>
